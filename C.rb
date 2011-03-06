@@ -1,10 +1,14 @@
 #!/usr/bin/ruby
-
+# Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
-#invoked with 'c'
-#params: list --lists all clock ins/outs
-#        total --total time worked
+# C.rb -- Time keeping script. 
+# Call with no params to clock in/out
+# Params:
+#   ?     : are you clocked in? check
+#   log   : peek at the work log
+#   total : how long have you worked? (hours)
+
 
 clocked_in = false
 log = []
