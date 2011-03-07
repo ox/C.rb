@@ -6,9 +6,10 @@
 # C.rb -- Time keeping script. 
 # Call with no params to clock in/out
 # Params:
-#   ?     : are you clocked in? check
-#   log   : peek at the work log
-#   total : how long have you worked? (hours)
+#   ?      : are you clocked in? check
+#   log    : peek at the work log
+#   total  : how long have you worked? (hours)
+#   update : update the app, optional 'force' argument
 
 require 'open-uri'
 
