@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# Version (0.3)
+# Version (0.4)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
@@ -10,6 +10,7 @@
 #   log   : peek at the work log
 #   total : how long have you worked? (hours)
 
+require 'open-uri'
 
 clocked_in = false
 log = []
@@ -25,6 +26,15 @@ File.open(path,"r") do |file|
   clocked_in = log.size % 2 != 0
 end 
 
+# sorta beta? I don't know how well this will work but it's
+# interesting
+def update_self
+    updated_version = open('https://gist.github.com/raw/857843/bad9a534546bd0459ab47fa5ad89ba49499891d2/C.rb').read
+    File.open(__FILE__, 'w+') do |f|
+      f.puts updated_version
+    end
+end
+
 if ARGV.empty?
   if clocked_in
     File.open(path,"a+") { |f| f.write("#{Time.now.to_f} out\n")}
@@ -35,6 +45,22 @@ if ARGV.empty?
   end
 else
   case ARGV.first
+  when "v"
+    puts (File.read(__FILE__)).match(/# Version \((.*?)\)/)[1].to_f
+  when "update"
+    k = open('https://gist.github.com/857843').read
+    available_version = k.match(/# Version \((.*?)\)/)[1].to_f
+    current_version = (File.read(__FILE__)).match(/# Version \((.*?)\)/)[1].to_f
+    if available_version > current_version
+      puts "version #{available_version} available, updating" 
+      update_self
+    else
+      if !ARGV.empty? and ARGV[1] == "force"
+        update_self
+      else
+        puts "no need to update, you can still use 'update force'"
+      end
+    end
   when "help"
     puts "C.rb -- Time keeping script. \nCall with no params to clock in/out" 
     puts "Params:\n\t?     : are you clocked in? check\n\tlog   : peek at the work log"
