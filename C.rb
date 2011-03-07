@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+# Version 0.3
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
