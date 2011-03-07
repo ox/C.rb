@@ -35,7 +35,7 @@ if ARGV.empty?
 else
   case ARGV.first
   when "help"
-    puts "Clocker -- Time keeping script. \nCall with no params to clock in/out" 
+    puts "C.rb -- Time keeping script. \nCall with no params to clock in/out" 
     puts "Params:\n\t?     : are you clocked in? check\n\tlog   : peek at the work log"
     puts "\ttotal : how long have you worked? (hours)"
   when "?"
@@ -47,10 +47,22 @@ else
       puts "\n" if !k; k = !k
     end
   when "total"
+    prev = 0
+    worked = 0
+    second = false
+    log.each do |work|
+      if second
+        worked += Time.at(work) - Time.at(prev)
+      else
+        prev = work
+      end
+      second = !second
+    end
+    
     if log.size == 1
       puts "#{(Time.now - Time.at(log.first)) / 3600} hours"
     else
-      puts "#{(Time.at(log.last) - Time.at(log.first)) / 3600} hours"
+      puts "#{worked / 3600} hours"
     end
   end
 end
