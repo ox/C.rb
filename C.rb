@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# Version (0.41)
+# Version (0.45)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
@@ -35,6 +35,8 @@ def update_self
       f.puts updated_version
     end
 end
+
+class Float; def to_decimal_places(n); return format("%.#{n}f",self); end; end
 
 if ARGV.empty?
   if clocked_in
@@ -75,23 +77,23 @@ else
       puts "#{Time.at(x)} #{k ? "in" : "out"}"
       puts "\n" if !k; k = !k
     end
-  when "total"
-    prev = 0
-    worked = 0
-    second = false
-    log.each do |work|
-      if second
-        worked += Time.at(work) - Time.at(prev)
-      else
-        prev = work
-      end
-      second = !second
-    end
-    
+  when "total"    
     if log.size == 1
-      puts "#{(Time.now - Time.at(log.first)) / 3600} hours"
+      puts "#{((Time.now - Time.at(log.first)) / 3600).to_decimal_places(3)} hours"
     else
-      puts "#{worked / 3600} hours"
+      prev = 0
+      worked = 0
+      second = false
+      log.each do |work|
+        if second
+          worked += Time.at(work) - Time.at(prev)
+        else
+          prev = work
+        end
+        second = !second
+      end
+      
+      puts "#{(worked / 3600).to_decimal_places(3)} hours"
     end
   end
 end
