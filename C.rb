@@ -27,8 +27,7 @@ File.open(path,"r") do |file|
   clocked_in = log.size % 2 != 0
 end 
 
-# sorta beta? I don't know how well this will work but it's
-# interesting
+# sorta beta? I don't know how well this will work but it's interesting
 def update_self
     updated_version = open('https://gist.github.com/raw/857843/C.rb').read
     File.open(__FILE__, 'w+') do |f|
