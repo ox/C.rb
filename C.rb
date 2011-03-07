@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# Version (0.4)
+# Version (0.41)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
@@ -29,7 +29,7 @@ end
 # sorta beta? I don't know how well this will work but it's
 # interesting
 def update_self
-    updated_version = open('https://gist.github.com/raw/857843/bad9a534546bd0459ab47fa5ad89ba49499891d2/C.rb').read
+    updated_version = open('https://gist.github.com/raw/857843/C.rb').read
     File.open(__FILE__, 'w+') do |f|
       f.puts updated_version
     end
@@ -45,7 +45,7 @@ if ARGV.empty?
   end
 else
   case ARGV.first
-  when "v"
+  when "version"
     puts (File.read(__FILE__)).match(/# Version \((.*?)\)/)[1].to_f
   when "update"
     k = open('https://gist.github.com/857843').read
@@ -63,8 +63,9 @@ else
     end
   when "help"
     puts "C.rb -- Time keeping script. \nCall with no params to clock in/out" 
-    puts "Params:\n\t?     : are you clocked in? check\n\tlog   : peek at the work log"
-    puts "\ttotal : how long have you worked? (hours)"
+    puts "Params:\n\t?      : are you clocked in? check\n\tlog    : peek at the work log"
+    puts "\ttotal  : how long have you worked? (hours)"
+    puts "\tupdate : update the app, optional 'force' argument"
   when "?"
     puts "You #{clocked_in ? "are" : "aren't"} clocked in"
   when "log"
