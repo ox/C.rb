@@ -1,15 +1,16 @@
 #!/usr/bin/ruby
-# Version (0.6)
+# Version (0.61)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
 # C.rb -- Time keeping script. 
 # Call with no params to clock in/out
 # Params:
-#   ?      : are you clocked in? check
-#   log    : peek at the work log
-#   total  : how long have you worked? (hours)
-#   update : update the app, optional 'force' argument
+#   ?           : are you clocked in? check
+#   log         : peek at the work log
+#   total       : how long have you worked? (hours)
+#   update      : update the app, optional 'force' argument
+#   at rate <n> : calculate money earned at a given rate so far
 
 require 'open-uri'
 
@@ -93,9 +94,12 @@ else
     end
   when "help"
     puts "C.rb -- Time keeping script. \nCall with no params to clock in/out" 
-    puts "Params:\n\t?      : are you clocked in? check\n\tlog    : peek at the work log"
-    puts "\ttotal  : how long have you worked? (hours)"
-    puts "\tupdate : update the app, optional 'force' argument"
+    puts "Params:\n"
+    puts "\t?           : are you clocked in? check"
+    puts "\tlog         : peek at the work log"
+    puts "\ttotal       : how long have you worked? (hours)"
+    puts "\tupdate      : update the app, optional 'force' argument"
+    puts "\tat rate <n> : calculate money earned at a given rate so far"
   when "?"
     puts "You #{clocked_in ? "are" : "aren't"} clocked in"
   when "log"
