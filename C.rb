@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# Version (0.46)
+# Version (0.6)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
@@ -35,6 +35,30 @@ def update_self
     end
 end
 
+def total(log)
+  if log.size == 1
+    return ((Time.now - Time.at(log.first)) / 3600).to_decimal_places(3)
+  else
+    prev = 0
+    worked = 0
+    second = false
+    log.each do |work|
+      if second
+        worked += Time.at(work) - Time.at(prev)
+      else
+        prev = work
+      end
+      second = !second
+    end
+    
+    if log.size % 2 != 0
+      worked += Time.now - Time.at(log.last)
+    end
+    
+    return (worked / 3600).to_decimal_places(3).to_f
+  end
+end
+
 class Float; def to_decimal_places(n); return format("%.#{n}f",self); end; end
 
 if ARGV.empty?
@@ -47,6 +71,10 @@ if ARGV.empty?
   end
 else
   case ARGV.first
+  when "at"
+    if ARGV[1] == "rate" and ARGV[2] != nil and ARGV[2].to_f >= 0
+      puts "$#{total(log) * ARGV[2].to_f}"  
+    end
   when "version"
     puts (File.read(__FILE__)).match(/# Version \((.*?)\)/)[1].to_f
   when "update"
@@ -77,26 +105,6 @@ else
       puts "\n" if !k; k = !k
     end
   when "total"    
-    if log.size == 1
-      puts "#{((Time.now - Time.at(log.first)) / 3600).to_decimal_places(3)} hours"
-    else
-      prev = 0
-      worked = 0
-      second = false
-      log.each do |work|
-        if second
-          worked += Time.at(work) - Time.at(prev)
-        else
-          prev = work
-        end
-        second = !second
-      end
-      
-      if log.size % 2 != 0
-        worked += Time.now - Time.at(log.last)
-      end
-      
-      puts "#{(worked / 3600).to_decimal_places(3)} hours"
-    end
+    puts "#{total(log)} hours"
   end
 end
