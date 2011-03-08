@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# Version (0.45)
+# Version (0.46)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
@@ -90,6 +90,10 @@ else
           prev = work
         end
         second = !second
+      end
+      
+      if log.size % 2 != 0
+        worked += Time.now - Time.at(log.last)
       end
       
       puts "#{(worked / 3600).to_decimal_places(3)} hours"
