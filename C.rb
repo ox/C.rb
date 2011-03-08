@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# Version (0.61)
+# Version (0.70)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
@@ -11,6 +11,9 @@
 #   total       : how long have you worked? (hours)
 #   update      : update the app, optional 'force' argument
 #   at rate <n> : calculate money earned at a given rate so far
+# 
+# Beta:
+#   invoice at rate <n> : Makes a rudementary invoice
 
 require 'open-uri'
 
@@ -34,6 +37,14 @@ def update_self
     File.open(__FILE__, 'w+') do |f|
       f.puts updated_version
     end
+end
+
+def show_log(log)
+  k = true
+  log.each do |x| 
+    puts "#{Time.at(x)} #{k ? "in" : "out"}"
+    puts "\n" if !k; k = !k
+  end
 end
 
 def total(log)
@@ -60,7 +71,7 @@ def total(log)
   end
 end
 
-class Float; def to_decimal_places(n); return format("%.#{n}f",self); end; end
+class Float; def to_decimal_places(n); return format("%.#{n}f",self).to_f; end; end
 
 if ARGV.empty?
   if clocked_in
@@ -72,6 +83,14 @@ if ARGV.empty?
   end
 else
   case ARGV.first
+  when "invoice"
+    if ARGV[1] == "at" and ARGV[2] == "rate" and ARGV[3] != nil and ARGV[3].to_f >= 0
+      nice_rate = ARGV[3].to_f.to_decimal_places(2)
+      log << Time.now if log.size % 2 != 0 #we can't just ask for $ when clocked in
+      show_log(log)
+      puts "-"*40
+      puts "#{total(log)} hours * $#{nice_rate}/hr = $#{total(log) * nice_rate}"  
+    end    
   when "at"
     if ARGV[1] == "rate" and ARGV[2] != nil and ARGV[2].to_f >= 0
       puts "$#{total(log) * ARGV[2].to_f}"  
@@ -100,14 +119,12 @@ else
     puts "\ttotal       : how long have you worked? (hours)"
     puts "\tupdate      : update the app, optional 'force' argument"
     puts "\tat rate <n> : calculate money earned at a given rate so far"
+    puts "\nBeta:\n"
+    puts "\tinvoice at rate <n> : Makes a rudementary invoice"
   when "?"
     puts "You #{clocked_in ? "are" : "aren't"} clocked in"
   when "log"
-    k = true
-    log.each do |x| 
-      puts "#{Time.at(x)} #{k ? "in" : "out"}"
-      puts "\n" if !k; k = !k
-    end
+    puts show_log(log)
   when "total"    
     puts "#{total(log)} hours"
   end
