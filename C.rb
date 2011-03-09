@@ -122,7 +122,7 @@ else
   when "help"
     puts "C.rb -- Time keeping script. \nCall with no params to clock in/out" 
     puts "Params:\n"
-    puts "\t?       : are you clocked in? check. Optional 'sedable' returns 1/0"
+    puts "\t?       : are you clocked in? check. Optional 'color' argument"
     puts "\tlog     : peek at the work log"
     puts "\ttotal   : how long have you worked? (hours)"
     puts "\t          optional \" at rate <n>\" displays billable"
@@ -133,8 +133,8 @@ else
     puts "\nBeta:\n"
     puts "\tinvoice at rate <n> : Makes a rudementary invoice at rate <n>"
   when "?"
-    if ARGV[1] == "sedable"
-      puts "#{clocked_in ? 1 : 0}"
+    if ARGV[1] == "color"
+      puts "\[#{clocked_in ? "\e[1;32m" : "\e[1;31m"}#{total(log)} hrs\e[0m\]"
     else
       puts "You #{clocked_in ? "are" : "aren't"} clocked in"
     end
