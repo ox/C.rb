@@ -1,12 +1,12 @@
 #!/usr/bin/ruby
-# Version (0.79)
+# Version (0.78)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
 # C.rb -- Time keeping script. 
 # Call with no params to clock in/out
 # Params:
-#   ?       : are you clocked in? check. Optional 'sedable' returns 1/0
+#   ?       : are you clocked in? check
 #   log     : peek at the work log
 #   total   : how long have you worked? (hours)
 #             optional " at rate <n>" displays billable
@@ -122,7 +122,7 @@ else
   when "help"
     puts "C.rb -- Time keeping script. \nCall with no params to clock in/out" 
     puts "Params:\n"
-    puts "\t?       : are you clocked in? check. Optional 'sedable' returns 1/0"
+    puts "\t?       : are you clocked in? check"
     puts "\tlog     : peek at the work log"
     puts "\ttotal   : how long have you worked? (hours)"
     puts "\t          optional \" at rate <n>\" displays billable"
@@ -133,11 +133,7 @@ else
     puts "\nBeta:\n"
     puts "\tinvoice at rate <n> : Makes a rudementary invoice at rate <n>"
   when "?"
-    if ARGV[1] == "sedable"
-      puts "#{clocked_in ? 1 : 0}"
-    else
-      puts "You #{clocked_in ? "are" : "aren't"} clocked in"
-    end
+    puts "You #{clocked_in ? "are" : "aren't"} clocked in"
   when "log"
     show_log(log)
   when "total"    
