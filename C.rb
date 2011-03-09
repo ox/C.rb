@@ -85,6 +85,15 @@ if ARGV.empty?
   end
 else
   case ARGV.first
+  when "clear"
+    puts "Are you sure you want to clear the logfile? (y/n): "
+    confirm = STDIN.gets.chomp
+    if confirm == "y"
+      File.open(path,"w") {|f| f.write("")}
+      puts "Cleared file! I think..."
+    else
+      puts "Phew! Didn't think you'd want to do that."
+    end
   when "invoice"
     if ARGV[1] == "at" and ARGV[2] == "rate" and ARGV[3] != nil and ARGV[3].to_f >= 0
       nice_rate = ARGV[3].to_f.to_decimal_places(2)
@@ -112,19 +121,20 @@ else
   when "help"
     puts "C.rb -- Time keeping script. \nCall with no params to clock in/out" 
     puts "Params:\n"
-    puts "\t?           : are you clocked in? check"
-    puts "\tlog         : peek at the work log"
-    puts "\ttotal       : how long have you worked? (hours)"
-    puts "\t              optional \" at rate <n>\" displays billable"
-    puts "\t              ex: c total at rate 25 #=> $539.53"
-    puts "\t              sum for project at rate n"
-    puts "\tupdate      : update the app, optional 'force' argument"
+    puts "\t?       : are you clocked in? check"
+    puts "\tlog     : peek at the work log"
+    puts "\ttotal   : how long have you worked? (hours)"
+    puts "\t          optional \" at rate <n>\" displays billable"
+    puts "\t          ex: c total at rate 25 #=> $539.53"
+    puts "\t          sum for project at rate n"
+    puts "\tupdate  : update the app, optional 'force' argument"
+    puts "\tclear   : empties the log file "
     puts "\nBeta:\n"
     puts "\tinvoice at rate <n> : Makes a rudementary invoice at rate <n>"
   when "?"
     puts "You #{clocked_in ? "are" : "aren't"} clocked in"
   when "log"
-    puts show_log(log)
+    show_log(log)
   when "total"    
     if ARGV[1] == "at" and ARGV[2] == "rate" and ARGV[3].to_f >= 0 and ARGV[3] != nil
       puts "$#{total(log) * ARGV[3].to_f}"  
