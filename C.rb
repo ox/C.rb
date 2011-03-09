@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# Version (0.70)
+# Version (0.75)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
@@ -9,11 +9,13 @@
 #   ?           : are you clocked in? check
 #   log         : peek at the work log
 #   total       : how long have you worked? (hours)
+#                 optional " at rate <n>" displays billable
+#                 ex: c total at rate 25 #=> $539.53
+#                 sum for project at rate n
 #   update      : update the app, optional 'force' argument
-#   at rate <n> : calculate money earned at a given rate so far
 # 
 # Beta:
-#   invoice at rate <n> : Makes a rudementary invoice
+#   invoice at rate <n> : Makes a rudementary invoice at rate <n>
 
 require 'open-uri'
 
@@ -90,10 +92,6 @@ else
       show_log(log)
       puts "-"*40
       puts "#{total(log)} hours * $#{nice_rate}/hr = $#{total(log) * nice_rate}"  
-    end    
-  when "at"
-    if ARGV[1] == "rate" and ARGV[2] != nil and ARGV[2].to_f >= 0
-      puts "$#{total(log) * ARGV[2].to_f}"  
     end
   when "version"
     puts (File.read(__FILE__)).match(/# Version \((.*?)\)/)[1].to_f
@@ -117,15 +115,21 @@ else
     puts "\t?           : are you clocked in? check"
     puts "\tlog         : peek at the work log"
     puts "\ttotal       : how long have you worked? (hours)"
+    puts "\t              optional \" at rate <n>\" displays billable"
+    puts "\t              ex: c total at rate 25 #=> $539.53"
+    puts "\t              sum for project at rate n"
     puts "\tupdate      : update the app, optional 'force' argument"
-    puts "\tat rate <n> : calculate money earned at a given rate so far"
     puts "\nBeta:\n"
-    puts "\tinvoice at rate <n> : Makes a rudementary invoice"
+    puts "\tinvoice at rate <n> : Makes a rudementary invoice at rate <n>"
   when "?"
     puts "You #{clocked_in ? "are" : "aren't"} clocked in"
   when "log"
     puts show_log(log)
   when "total"    
-    puts "#{total(log)} hours"
+    if ARGV[1] == "at" and ARGV[2] == "rate" and ARGV[3].to_f >= 0 and ARGV[3] != nil
+      puts "$#{total(log) * ARGV[3].to_f}"  
+    else
+      puts "#{total(log)} hours"
+    end
   end
 end
