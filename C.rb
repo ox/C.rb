@@ -1,12 +1,12 @@
 #!/usr/bin/ruby
-# Version (0.80)
+# Version (0.81)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
 # C.rb -- Time keeping script. 
 # Call with no params to clock in/out
 # Params:
-#   ?       : are you clocked in? check. Optional 'sedable' returns 1/0
+#   ?       : are you clocked in? check. Optional 'color' argument
 #   log     : peek at the work log
 #   total   : how long have you worked? (hours)
 #             optional " at rate <n>" displays billable
@@ -134,7 +134,7 @@ else
     puts "\tinvoice at rate <n> : Makes a rudementary invoice at rate <n>"
   when "?"
     if ARGV[1] == "color"
-      puts "\[#{clocked_in ? "\e[1;32m" : "\e[1;31m"}#{total(log)} hrs\e[0m\]"
+      puts "#{clocked_in ? "\e[1;32m" : "\e[1;31m"}#{total(log)} hrs\e[0m"
     else
       puts "You #{clocked_in ? "are" : "aren't"} clocked in"
     end
