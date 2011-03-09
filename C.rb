@@ -1,18 +1,19 @@
 #!/usr/bin/ruby
-# Version (0.77)
+# Version (0.78)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
 # C.rb -- Time keeping script. 
 # Call with no params to clock in/out
 # Params:
-#   ?           : are you clocked in? check
-#   log         : peek at the work log
-#   total       : how long have you worked? (hours)
-#                 optional " at rate <n>" displays billable
-#                 ex: c total at rate 25 #=> $539.53
-#                 sum for project at rate n
-#   update      : update the app, optional 'force' argument
+#   ?       : are you clocked in? check
+#   log     : peek at the work log
+#   total   : how long have you worked? (hours)
+#             optional " at rate <n>" displays billable
+#             ex: c total at rate 25 #=> $539.53
+#             sum for project at rate n
+#   update  : update the app, optional 'force' argument
+#   clear   : empties the log file 
 # 
 # Beta:
 #   invoice at rate <n> : Makes a rudementary invoice at rate <n>
@@ -137,7 +138,7 @@ else
     show_log(log)
   when "total"    
     if ARGV[1] == "at" and ARGV[2] == "rate" and ARGV[3].to_f >= 0 and ARGV[3] != nil
-      puts "$#{total(log) * ARGV[3].to_f}"  
+      puts "$#{total(log).to_decimal_places(2) * ARGV[3].to_f}"  
     else
       puts "#{total(log)} hours"
     end
