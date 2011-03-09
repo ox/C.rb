@@ -1,0 +1,70 @@
+C.rb -- Time keeping script. 
+Call with no params to clock in/out
+Params:
+	?       : are you clocked in? check
+	log     : peek at the work log
+	total   : how long have you worked? (hours)
+	          optional " at rate <n>" displays billable
+	          ex: c total at rate 25 #=> $539.53
+	          sum for project at rate n
+	update  : update the app, optional 'force' argument
+	clear   : empties the log file 
+
+Beta:
+	invoice at rate <n> : Makes a rudementary invoice at rate <n>
+
+What is it?
+
+C.rb is a simple time clocker which allows you to just call the program to clock
+
+in and just start working. When you're done for the day, just call c.rb again and 
+
+your time will be logged. You can monitor how many hours you've clocked and 
+
+the actual log itself.
+
+ 
+
+How do I get it?
+
+You can install it quickly to your desktop (OS X) using the following bash cmd:
+
+cd ~/Desktop/;curl -o c.rb https://gist.github.com/raw/857843/C.rb; alias c="ruby ~/Desktop/c.rb"
+
+
+How do I use it?
+
+Save the c.rb script somewhere on your harddrive, doesn't really matter where.
+
+Now in your .bash_profile you should add the following line:
+
+alias c="ruby /path/c.rb"
+ 
+
+Does it have any other features?
+
+C.rb is a pretty straight to the point script, however it does feature some 
+
+pleasantries like log which will show you a log of your log in/out dates
+
+times. Another option ? tells you if you're still clocked in, and total displays
+
+how many hours you have clocked in thus far. If you can't remember any
+
+of these then you can  use help as an argument and you can get a pretty
+
+list of functionality.
+
+ 
+
+Windows? Quite Certainly!
+
+Windows users need to follow some different steps. You will need to install
+
+Ruby. Then set up a Windows terminal command that runs the script. This
+
+information can be found at Microsoft's site. Essentially you will still set up
+
+ruby to run the c.rb file regardless of what platform you are on. You just
+
+need to have Ruby.
