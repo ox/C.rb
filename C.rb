@@ -26,6 +26,11 @@ log = []
 #first lets read the status file
 path = File.expand_path "~/.clockwork.log", __FILE__
 
+unless File.exists?(path)
+  File.new(path, "w")
+  puts "Log file created: ~/.clockwork.log"
+end
+
 File.open(path,"r") do |file|
   while line = file.gets
     work = line.match(/(.*?) (?=in|out)/)
