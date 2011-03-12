@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# Version (0.81)
+# Version (0.83)
 # Created by Artem Titoulenko (artem.titoulenko@gmail.com)
 # clock in application. I'm tired of counting.
 
@@ -27,8 +27,9 @@ log = []
 path = File.expand_path "~/.clockwork.log", __FILE__
 
 unless File.exists?(path)
-  File.new(path, "w")
-  puts "Log file created: ~/.clockwork.log"
+  if !File.new(path, "w")
+    puts "There was an issue creating the required ~/.clockwork.log file"
+  end
 end
 
 File.open(path,"r") do |file|
